@@ -1,0 +1,2 @@
+# files that need to be restricted/ignored
+db_creds.yaml
