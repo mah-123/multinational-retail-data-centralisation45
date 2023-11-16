@@ -1,6 +1,7 @@
 import yaml
 from sqlalchemy import create_engine
 import pandas as pd
+import psycopg2
 
 class DatabaseConnector():
     
@@ -9,7 +10,7 @@ class DatabaseConnector():
     file for creating a db create engine.Note: might need to make it private or protected
     from user entering in.
     '''
-    def read_db_creds():
+    def read_db_creds(self):
         
         with open("db_creds.yaml", 'r') as file:
             dict = yaml.safe_load(file)
@@ -21,7 +22,7 @@ class DatabaseConnector():
     '''
     def init_db_engine(self):
 
-        db_val = self.read_db_creds
+        db_val = self.read_db_creds()
 
         DATABASE_TYPE = 'postgresql'
         DBAPI = 'psycopg2'
@@ -32,6 +33,7 @@ class DatabaseConnector():
         PORT = db_val['RDS_PORT']
         
         engine = create_engine(f"{DATABASE_TYPE}+{DBAPI}://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}")
+        return engine
 
     def upload_to_db():
         # dim_card_details

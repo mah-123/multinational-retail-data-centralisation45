@@ -1,17 +1,19 @@
 import tabula
 from database_utils import *
+from sqlalchemy import *
 
 pdf_path = "https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf"
 
 class DataExcractor(DatabaseConnector):
     
     
-    def __init__(self):
-        pass
-
-    
     def list_db_tables(self):
-        pass
+        
+        engine = self.init_db_engine()
+        engine.connect()
+        table_ls = inspect(engine)
+        
+        return table_ls.get_table_names()
 
     
     def read_rds_table(self):
