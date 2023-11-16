@@ -14,3 +14,4 @@ if __name__ == "__main__":
     print(object.read_db_creds())
     print(object.init_db_engine())
     print(obj2.list_db_tables())
+    obj2.read_rds_table("legacy_store_details")

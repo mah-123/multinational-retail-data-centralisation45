@@ -19,6 +19,7 @@ class DatabaseConnector():
 
     '''
     Cretaing a create enginee which will be retrieved from the read_db_creds.
+    Each value had been assigned to the database
     '''
     def init_db_engine(self):
 
