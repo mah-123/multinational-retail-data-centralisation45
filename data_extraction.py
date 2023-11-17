@@ -26,12 +26,19 @@ class DataExcractor(DatabaseConnector):
         engine.execution_options(isolation_level='AUTOCOMMIT').connect()
         
         table_data = pd.read_sql_table(f'{self.table_name}', engine)
-        
-        return table_data
+
+        print(table_data)
+        col = list(table_data.columns)
+        print(col)
+
+        # return table_data
 
     
     def read_rds_table(self):
-        pass
+        self.list_db_tables
+        self.read_rds_table
+
+        df = pd.DataFrame()
 
     
     def retrieve_pdf_data(self):
