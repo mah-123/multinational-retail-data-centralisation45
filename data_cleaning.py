@@ -1,17 +1,19 @@
-from data_extraction import *
+# from data_extraction import DataExcractor
 from dateutil.parser import parse
 import pandas as pd
 
-class DataCleaning(DataExcractor):
+class DataCleaning():
 
 
     '''
     method clean_user is used to clean data value such as creating correct datatype,
     removing Null value, removing duplicate value and adjusting the correct data_type.
     '''
-    def clean_user_data(self):
+    def clean_user_data(self, df_user):
         date_format = "mixed"
-        df_user = self.read_rds_table('legacy_users')
+        
+        # Dex = DataExcractor()
+        # df_user = self.read_rds_table('legacy_users')
         
         df_user.drop_duplicates(inplace= True)
 
@@ -32,8 +34,9 @@ class DataCleaning(DataExcractor):
 
         return df_user 
        
-    def clean_card_data(self):
-        card_df = self.retrieve_pdf_data
+    def clean_card_data(self, card_df):
+        
+        # card_df = self.retrieve_pdf_data
         card_df.drop_duplicates(inplace= True)
         card_df.dropna(inplace= True)
 
