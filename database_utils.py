@@ -2,7 +2,7 @@ import yaml
 from sqlalchemy import create_engine
 import pandas as pd
 import psycopg2
-# from data_cleaning import *
+# from data_cleaning import DataCleaning
 
 class DatabaseConnector():
     
@@ -17,6 +17,11 @@ class DatabaseConnector():
             dict = yaml.safe_load(file)
         return dict
 
+    def read_db_creds_2(self):
+        
+        with open("db_sales_creds.yaml", 'r') as file:
+            dict = yaml.safe_load(file)
+        return dict
 
     '''
     Cretaing a create enginee which will be retrieved from the read_db_creds.
@@ -37,26 +42,27 @@ class DatabaseConnector():
         engine = create_engine(f"{DATABASE_TYPE}+{DBAPI}://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}")
         return engine
 
-    def upload_to_db(self, table_name):
+    def upload_to_db(self, table_name, upload_df):
         
         
         '''
         Uses the Datacleaning class filtered dataframe from clean_user_data() methods to take
         in the clean filtered. This then sent to the sales_data database to be query from SQL.
         '''
-        
-        # upload_df = DataCleaning()
+        # Dcl = DataCleaning()
+        # upload_df = Dcl.clean_user_data()
+        db_val = self.read_db_creds_2()
         self.table_name = table_name
 
-        DATABASE_TYPE = 'postgresql'
-        DBAPI = 'psycopg2'
-        HOST ='localhost' 
-        USER = 'postgres'
-        PASSWORD = 'Mahdi_123!'
-        DATABASE = 'sales_data'
-        PORT = 5423
+        DATABASE_TYPE = db_val['DATABASE_TYPE']
+        DBAPI = db_val['DBAPI']
+        HOST = db_val['HOST']
+        USER = db_val['USER']
+        PASSWORD = db_val['PASSWORD']
+        DATABASE = db_val['DATABASE']
+        PORT = db_val['PORT']
         
         engine = create_engine(f"{DATABASE_TYPE}+{DBAPI}://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}")
 
-        # return upload_df.to_sql(f'{table_name}', engine, if_exists = 'replace')
+        return upload_df.to_sql(f'{table_name}', engine, if_exists = 'replace')
 
