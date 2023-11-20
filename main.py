@@ -17,3 +17,4 @@ if __name__ == "__main__":
     print(obj2.list_db_tables())
     print(obj2.read_rds_table('legacy_users'))
     obj3.clean_user_data()
+    # object.upload_to_db('dim_users')

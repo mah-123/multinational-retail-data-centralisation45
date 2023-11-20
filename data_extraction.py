@@ -44,8 +44,10 @@ class DataExcractor(DatabaseConnector):
         
     
     def retrieve_pdf_data(self):
-        tabula.read_pdf(pdf_path)
-            
+        df_pdf = tabula.read_pdf(pdf_path)
+        df_pdf = pd.DataFrame(df_pdf)
+
+        return df_pdf    
     
     def list_number_of_stores(self):
         pass
