@@ -42,8 +42,9 @@ class DataExcractor():
         
     
     def retrieve_pdf_data(self):
-        df_pdf = tabula.read_pdf(pdf_path)
-        df_pdf = pd.DataFrame(df_pdf)
+        # df_pdf = tabula.read_pdf(pdf_path, pages= 'all')
+        df_pdf = pd.DataFrame(tabula.read_pdf(pdf_path, pages= 'all')[0])
+       # df_pdf = pd.DataFrame(df_pdf)
 
         return df_pdf    
     

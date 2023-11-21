@@ -12,8 +12,12 @@ class DataCleaning():
     def clean_user_data(self, df_user):
         date_format = "mixed"
         
-        # Dex = DataExcractor()
-        # df_user = self.read_rds_table('legacy_users')
+        # print(df_user['date_of_birth'].unique())
+        # print(df_user['join_date'].unique())
+        # print(df_user['country'].unique())
+        # print(df_user['country_code'].unique())
+        # print(df_user['phone_number'].unique())
+        
         
         df_user.drop_duplicates(inplace= True)
 
@@ -23,8 +27,8 @@ class DataCleaning():
         # df_user['join_date'] = df_user['join_date'].apply(parse)
         # df_user['join_date'] = pd.to_datetime(df_user['join_date'], infer_datetime_format=True, errors='coerce')
         
-        df_user.date_of_birth = pd.to_datetime(df_user.date_of_birth, format= date_format, errors= 'coerce')
-        df_user.join_date = pd.to_datetime(df_user.join_date, format= date_format, errors='coerce')
+        df_user['date_of_birth'] = pd.to_datetime(df_user.date_of_birth, format= date_format, errors= 'coerce')
+        df_user['join_date'] = pd.to_datetime(df_user.join_date, format= date_format, errors='coerce')
 
         df_user.dropna(inplace= True)
 
@@ -41,12 +45,11 @@ class DataCleaning():
         method used to clean the card_data list from a pdf file containing user
         information
         '''
-        # card_df = self.retrieve_pdf_data
         
         card_df.drop_duplicates(inplace= True)
         
-        card_df.expiry_date = pd.to_datetime(card_df.expiry_date, format='%m%y', errors='coerce')
-        card_df.date_time_payment = pd.to_datetime(card_df.date_time_payment, format='mixed', errors='coerce')
+        card_df['expiry_date'] = pd.to_datetime(card_df.expiry_date, format='%m%Y', errors='coerce')
+        card_df['date_time_payment'] = pd.to_datetime(card_df.date_payment_confirmed, format='"%Y%m%d"', errors='coerce')
         
         card_df.dropna(inplace= True)
 
