@@ -63,6 +63,6 @@ class DatabaseConnector():
         PORT = db_val['PORT']
         
         engine = create_engine(f"{DATABASE_TYPE}+{DBAPI}://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}")
-
+        
         return upload_df.to_sql(f'{table_name}', engine, if_exists = 'replace')
 

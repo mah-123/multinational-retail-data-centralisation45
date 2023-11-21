@@ -21,5 +21,5 @@ if __name__ == "__main__":
     print(dcon.init_db_engine())
     print(table_list)
     print(df_user)
-    dcl.clean_user_data(df_user)
-    dcon.upload_to_db(upload_df, 'dim_users')
+    print(dcl.clean_user_data(df_user))
+    dcon.upload_to_db('dim_users', upload_df)

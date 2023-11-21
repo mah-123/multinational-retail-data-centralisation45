@@ -36,9 +36,21 @@ class DataCleaning():
        
     def clean_card_data(self, card_df):
         
+
+        '''
+        method used to clean the card_data list from a pdf file containing user
+        information
+        '''
         # card_df = self.retrieve_pdf_data
+        
         card_df.drop_duplicates(inplace= True)
+        
+        card_df.expiry_date = pd.to_datetime(card_df.expiry_date, format='%m%y', errors='coerce')
+        card_df.date_time_payment = pd.to_datetime(card_df.date_time_payment, format='mixed', errors='coerce')
+        
         card_df.dropna(inplace= True)
+
+        return card_df
 
 
     def called_clean_store_data(self):
