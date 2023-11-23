@@ -3,6 +3,7 @@ import tabula
 from sqlalchemy import *
 import pandas as pd
 import requests
+import json
 
 pdf_path = "https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf"
 
@@ -57,10 +58,13 @@ class DataExcractor():
         self.store_endpoint = store_endpoint
         self.dict_header = dict_header
         
-        headers = {'Authorisation': dict_header['X-API-KEY']}
+        headers = {"x-api-key": dict_header['X-API-KEY']}
         response = requests.get(store_endpoint, headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
 
-        return response
+        return data
 
 
     def retrieve_stores_data(self):
