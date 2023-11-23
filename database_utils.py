@@ -53,6 +53,8 @@ class DatabaseConnector():
         # upload_df = Dcl.clean_user_data()
         db_val = self.read_db_creds_2()
         self.table_name = table_name
+        print("***" * 5)
+        print(type(upload_df))
 
         DATABASE_TYPE = db_val['DATABASE_TYPE']
         DBAPI = db_val['DBAPI']
@@ -64,5 +66,7 @@ class DatabaseConnector():
         
         engine = create_engine(f"{DATABASE_TYPE}+{DBAPI}://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}")
         
-        return upload_df.to_sql(f'{table_name}', engine, if_exists = 'replace')
+        upload_df.to_sql(f'{table_name}', engine, if_exists = 'replace')
+
+        print("upload complete")
 

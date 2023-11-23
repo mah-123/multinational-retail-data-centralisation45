@@ -2,8 +2,10 @@ import tabula
 # from database_utils import DatabaseConnector
 from sqlalchemy import *
 import pandas as pd
+import requests
 
 pdf_path = "https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf"
+
 
 class DataExcractor():
     
@@ -42,14 +44,23 @@ class DataExcractor():
         
     
     def retrieve_pdf_data(self):
-        # df_pdf = tabula.read_pdf(pdf_path, pages= 'all')
-        df_pdf = pd.DataFrame(tabula.read_pdf(pdf_path, pages= 'all')[0])
+        df_pdf = tabula.read_pdf(pdf_path, pages= 'all', stream= False)
+        df_concat = pd.concat(df_pdf)
        # df_pdf = pd.DataFrame(df_pdf)
+        print(f'This after the data pool{type(df_concat)}')
+        return df_concat   
+    '''
+    Methods list_of_numbers takes in the endpoint and dictionary header paramater
+    to gain some information for the number of stores 
+    '''
+    def list_number_of_stores(self, store_endpoint, dict_header):
+        self.store_endpoint = store_endpoint
+        self.dict_header = dict_header
+        
+        headers = {'Authorisation': dict_header['X-API-KEY']}
+        response = requests.get(store_endpoint, headers=headers)
 
-        return df_pdf    
-    
-    def list_number_of_stores(self):
-        pass
+        return response
 
 
     def retrieve_stores_data(self):
