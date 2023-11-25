@@ -68,5 +68,5 @@ class DataCleaning():
         return card_df
 
 
-    def called_clean_store_data(self):
+    def called_clean_store_data(self, store_df):
         pass

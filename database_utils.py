@@ -53,8 +53,8 @@ class DatabaseConnector():
         # upload_df = Dcl.clean_user_data()
         db_val = self.read_db_creds_2()
         self.table_name = table_name
-        print("***" * 5)
-        print(type(upload_df))
+        # print("***" * 5)
+        # print(type(upload_df))
 
         DATABASE_TYPE = db_val['DATABASE_TYPE']
         DBAPI = db_val['DBAPI']
