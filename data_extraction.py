@@ -67,6 +67,21 @@ class DataExcractor():
         return data
 
 
-    def retrieve_stores_data(self):
-        pass
+    def retrieve_stores_data(self, store_endpoint, dict_header):
+        self.store_endpoint = store_endpoint
+        self.dict_header = dict_header
+        
+        headers = {"x-api-key": dict_header['X-API-KEY']}
+        response = requests.get(store_endpoint, headers=headers)
+        repos = response.json()
+        data = []
+
+        print(repos)
+        print(len(repos))
+        for idx in range(0, 18):
+            data.append(repos['number_of_stores'])
+        
+        df_store = pd.DataFrame(data)
+
+        return df_store
     

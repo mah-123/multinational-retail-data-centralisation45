@@ -29,4 +29,5 @@ if __name__ == "__main__":
     # upload_card_df = dcl.clean_card_data(df_pdf)
     # dcon.upload_to_db('dim_card_details', upload_card_df)
     #reading the number of stores from the endpoint
-    print(dx.list_number_of_stores(store_details, dict_header))
+    print(dx.list_number_of_stores(number_stores, dict_header))
+    print(dx.retrieve_stores_data(store_details, dict_header))
