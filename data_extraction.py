@@ -4,6 +4,7 @@ from sqlalchemy import *
 import pandas as pd
 import requests
 import json
+import boto3
 
 pdf_path = "https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf"
 
@@ -32,13 +33,13 @@ class DataExcractor():
     def read_rds_table(self, engine, table_ls, table_name):
         
         table_ls = self.list_db_tables(engine)
-        self.table_name = table_name
+        # self.table_name = table_name
         # engine = self.init_db_engine()
         engine.execution_options(isolation_level='AUTOCOMMIT').connect()
 
 
-        if self.table_name in table_ls:
-            df_user = pd.read_sql_table(f'{self.table_name}', engine)
+        if table_name in table_ls:
+            df_user = pd.read_sql_table(f'{table_name}', engine)
 
 
         return df_user
@@ -83,3 +84,13 @@ class DataExcractor():
 
         return df_store
     
+    
+    def extract_from_s3(self, amz_s3):
+        
+        bucket, key = amz_s3.replace("s3://", "").split("/")
+        s3 = boto3.client('s3')
+        response = s3.get_object(Bucket= bucket, Key= key)
+        # s3.download_file(bucket, key, "C:/Users/Student/database-project/")
+        s3_df = pd.read_csv(response['Body'])
+        
+        return s3_df

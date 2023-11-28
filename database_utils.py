@@ -52,7 +52,7 @@ class DatabaseConnector():
         # Dcl = DataCleaning()
         # upload_df = Dcl.clean_user_data()
         db_val = self.read_db_creds_2()
-        self.table_name = table_name
+        # self.table_name = table_name
         # print("***" * 5)
         # print(type(upload_df))
 

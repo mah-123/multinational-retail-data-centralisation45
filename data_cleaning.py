@@ -56,7 +56,7 @@ class DataCleaning():
         method used to clean the card_data list from a pdf file containing user
         information
         '''
-        print(card_df)
+        
         card_df.drop_duplicates()
         #Adjust the format for expiry date.
         card_df['expiry_date'] = pd.to_datetime(card_df.expiry_date, format='%m/%y', errors='coerce')
@@ -69,4 +69,68 @@ class DataCleaning():
 
 
     def called_clean_store_data(self, store_df):
-        pass
+        
+        store_df.drop_duplicates()
+        # print(store_df.info())
+        store_df['address'] = store_df['address'].str.replace("\n", ",")
+        store_df['longitude'] = pd.to_numeric(store_df.longitude, errors='coerce')
+        del store_df['lat']
+        # store_df.drop(columns='lat')
+        # print(store_df['lat'].unique())
+        # print(store_df['locality'].unique())
+        # print(store_df['store_code'].unique())
+        store_df['staff_numbers'] = pd.to_numeric(store_df.staff_numbers, errors='coerce')
+        # print(store_df['store_type'].unique())
+        # print(store_df['locality'].unique())
+        # print(store_df['country_code'].unique())
+        store_df['latitude'] = pd.to_numeric(store_df.latitude, errors='coerce')
+        
+        map_dict = {'eeEurope': 'Europe',
+                    'eeAmerica': 'America'
+                    }
+        store_df['continent'].replace(map_dict, inplace= True)
+        
+        store_df.dropna(subset=['latitude'], inplace=True)
+
+        return store_df
+    '''
+    converts all the weight units to kg where each value are in oz, ml, g and mutiple grams.
+    Any random value needs to removed and turned to a float value.
+    '''
+    def convert_product_weights(self, aws_df):
+        
+        multi_gram = ['x','g']
+
+        for idx in range(len(aws_df['weight'])):
+            
+            if 'x' in aws_df['weight'][idx]:
+                val_1, val_2 = aws_df['weight'][idx].str.replace(multi_gram, '').split()
+                aws_df['weight'][idx] = (int(val_1) * int(val_2))/1000
+            
+            elif 'kg' in aws_df['weight'][idx]:
+                aws_df['weight'][idx] = aws_df['weight'][idx].str.replace('kg', '')
+                
+
+            elif 'g' in aws_df['weight'][idx]:
+                aws_df['weight'][idx] = aws_df['weight'][idx].str.replace('g', '')
+                aws_df['weight'][idx] = (int(aws_df['weight'][idx]))/1000
+                
+            
+            elif 'oz' in aws_df['weight'][idx]:
+                aws_df['weight'][idx] = aws_df['weight'][idx].str.replace('oz', '')
+                aws_df['weight'][idx] = int(aws_df['weight'][idx])/ 35.274
+                
+            
+            elif 'ml' in aws_df['weight'][idx]:
+                aws_df['weight'][idx] = aws_df['weight'][idx].str.replace('ml', '')
+                aws_df['weight'][idx] = (int(aws_df['weight'][idx]))/1000
+                
+
+            else:
+                del aws_df['weight'][idx]
+                #might be left out at the end of conversion for all columns
+        
+        aws_df['weight'] = pd.to_numeric(aws_df['weight'], errors='coerce')
+        
+        return aws_df
+            
