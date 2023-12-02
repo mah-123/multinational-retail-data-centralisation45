@@ -12,23 +12,41 @@ class DatabaseConnector():
     from user entering in.
     '''
     def read_db_creds(self):
-        
+
+        '''
+        Method used to read the creadential file from a yaml file containing
+        important information.
+
+            returns:
+                dict: dictionary of the credential details.
+        '''
         with open("db_creds.yaml", 'r') as file:
             dict = yaml.safe_load(file)
         return dict
 
     def read_db_creds_2(self):
         
+        '''
+        Similar to the previous method used to read the creadential file from a yaml file containing
+        important information.
+
+            returns:
+                dict: dictionary of the sales credential details.
+        '''
         with open("db_sales_creds.yaml", 'r') as file:
             dict = yaml.safe_load(file)
         return dict
 
-    '''
-    Cretaing a create enginee which will be retrieved from the read_db_creds.
-    Each value had been assigned to the database
-    '''
     def init_db_engine(self):
 
+        '''
+        
+        Method used to create an enginee which will be retrieved from the read_db_creds.
+        Each value had been assigned to the database
+
+            return:
+                engine: use for creating a connection point to sql.
+        '''
         db_val = self.read_db_creds()
 
         DATABASE_TYPE = 'postgresql'
@@ -46,15 +64,16 @@ class DatabaseConnector():
         
         
         '''
-        Uses the Datacleaning class filtered dataframe from clean_user_data() methods to take
-        in the clean filtered. This then sent to the sales_data database to be query from SQL.
+        Method to allow uploading from Datacleaning class filtered dataframe to sql query customer_data server.
+
+            args:
+                table_name: parameter to name the specific table name on sql.
+                upload_df: parameter used to take in the dataframe and upload to the sql server.
+            returns:
+                print statement: suggest if it had been successful for upload.
         '''
-        # Dcl = DataCleaning()
-        # upload_df = Dcl.clean_user_data()
+    
         db_val = self.read_db_creds_2()
-        # self.table_name = table_name
-        # print("***" * 5)
-        # print(type(upload_df))
 
         DATABASE_TYPE = db_val['DATABASE_TYPE']
         DBAPI = db_val['DBAPI']
