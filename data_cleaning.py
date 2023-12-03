@@ -28,7 +28,7 @@ class DataCleaning():
         df_user['date_of_birth'] = pd.to_datetime(df_user.date_of_birth, format= date_format, errors= 'coerce')
         df_user['join_date'] = pd.to_datetime(df_user.join_date, format= date_format, errors='coerce')
 
-        df_user.dropna()
+        df_user.dropna(subset=['date_of_birth'], inplace=True)
 
         return df_user 
     '''
