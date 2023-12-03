@@ -70,7 +70,6 @@ class DataCleaning():
         store_df.drop_duplicates()
         store_df['address'] = store_df['address'].str.replace("\n", ",")
         store_df['longitude'] = pd.to_numeric(store_df.longitude, errors='coerce')
-        del store_df['lat']
         store_df['staff_numbers'] = pd.to_numeric(store_df.staff_numbers, errors='coerce')
         store_df['latitude'] = pd.to_numeric(store_df.latitude, errors='coerce')
         
