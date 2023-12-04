@@ -72,6 +72,7 @@ class DataCleaning():
         store_df['longitude'] = pd.to_numeric(store_df.longitude, errors='coerce')
         store_df['staff_numbers'] = pd.to_numeric(store_df.staff_numbers, errors='coerce')
         store_df['latitude'] = pd.to_numeric(store_df.latitude, errors='coerce')
+        store_df['lat'] = pd.to_numeric(store_df.lat, errors='coerce')
         
         map_dict = {'eeEurope': 'Europe',
                     'eeAmerica': 'America'
