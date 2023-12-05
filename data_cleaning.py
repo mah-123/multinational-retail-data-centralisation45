@@ -56,6 +56,23 @@ class DataCleaning():
 
         return card_df
 
+    @staticmethod
+    def country_code_checker(s):
+
+        '''
+        Statistic method uses to check if  there is an invalid
+        country_code and replaces with a NULL.
+
+            args:
+                s: parameter place holder to iterate each row value for country code
+            returns:
+                s: keeps the orignal value for GB, US and DE else returns Null val.
+        '''
+        if s == 'GB' or s == 'US' or s == 'DE':
+            return s
+        else:
+            s = np.nan
+            return s
 
     def called_clean_store_data(self, store_df):
         
@@ -73,14 +90,15 @@ class DataCleaning():
         store_df['staff_numbers'] = pd.to_numeric(store_df.staff_numbers, errors='coerce')
         store_df['latitude'] = pd.to_numeric(store_df.latitude, errors='coerce')
         store_df['lat'] = pd.to_numeric(store_df.lat, errors='coerce')
+        store_df.loc[:,"country_code"] = store_df.loc[:,"country_code"].astype(str).apply(lambda x:self.country_code_checker(x)) 
         
         map_dict = {'eeEurope': 'Europe',
                     'eeAmerica': 'America'
                     }
         
-        store_df['continent'].replace(map_dict, inplace= True)
+        store_df['continent'].replace(map_dict, inplace=True)
         
-        store_df.dropna(subset=['latitude'], inplace=True)
+        store_df.dropna(subset=["country_code"], inplace=True)
 
         return store_df
     
