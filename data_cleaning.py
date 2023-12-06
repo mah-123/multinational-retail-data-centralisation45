@@ -52,7 +52,7 @@ class DataCleaning():
         card_df['expiry_date'] = pd.to_datetime(card_df.expiry_date, format='%m/%y', errors='coerce')
         card_df['date_time_payment'] = pd.to_datetime(card_df.date_payment_confirmed, format='"%Y%m%d"', errors='coerce')
         
-        card_df.dropna()
+        card_df.dropna(subset=["expiry_date"], inplace=True)
 
         return card_df
 
@@ -257,13 +257,11 @@ class DataCleaning():
         aws_df["product_name"] = aws_df["product_name"].astype("string")
         aws_df.loc[:,"product_price"] = aws_df.loc[:,"product_price"].astype(str).apply(lambda x:self.product_price_converter(x))
         aws_df["category"] =  aws_df["category"].astype(str)
-        aws_df["EAN"] = pd.to_numeric(aws_df.EAN, downcast="integer", errors='coerce')
         aws_df["date_added"] = pd.to_datetime(aws_df.date_added, errors='coerce', format="mixed")
         aws_df["uuid"] = aws_df["uuid"].astype(str)
         aws_df["product_code"] = aws_df["product_code"].astype(str)
 
         aws_df.dropna(subset=["weight"], inplace=True)
-        # print(aws_df.info())
 
         return aws_df
     
