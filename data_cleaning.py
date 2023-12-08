@@ -34,6 +34,25 @@ class DataCleaning():
     '''
     This method will clean the user information for card reading details.
     '''
+    @staticmethod
+    def card_number_checker(s):
+        
+        '''
+        Static method that uses the to check if the card_number is valid or random string
+        which will be replaced by nan.
+
+            args:
+                s: parameter to take in the individual card_number.
+            return:
+                s: returns original value if it is a card_number else
+                it will be replaced by null value.
+        '''
+        if s.isdigit():
+            return s
+        else:
+            s = np.nan
+            return s
+
     def clean_card_data(self, card_df):
         
 
@@ -49,10 +68,11 @@ class DataCleaning():
         
         card_df.drop_duplicates()
         #Adjust the format for expiry date.
-        card_df['expiry_date'] = pd.to_datetime(card_df.expiry_date, format='%m/%y', errors='coerce')
         card_df['date_time_payment'] = pd.to_datetime(card_df.date_payment_confirmed, format='"%Y%m%d"', errors='coerce')
+        card_df['card_number'] = card_df['card_number'].astype(str).map(lambda x: x.lstrip('?'))
+        card_df.loc[:,'card_number'] = card_df.loc[:,'card_number'].astype(str).apply(lambda x: self.card_number_checker(x))
         
-        card_df.dropna(subset=["expiry_date"], inplace=True)
+        card_df.dropna(subset=["card_number"], inplace=True)
 
         return card_df
 
